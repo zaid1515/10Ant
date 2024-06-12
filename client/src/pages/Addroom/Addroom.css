@@ -1,0 +1,224 @@
+.addroom{
+    margin-top: 100px;
+    /* background-color: #0abcf9; */
+
+    width: 100%;
+    height: fit-content;
+    border-radius: 20px;
+    justify-content: center;
+    padding: 10px;
+    align-items: center;
+}
+
+.addroomWrapper{
+    padding: 20px;
+    width: 40%;
+    /* justify-content: center; */
+    flex-direction: column;
+    margin-left: 30%;
+    /* border: 1px solid black; */
+    border-radius: 20px;
+    box-shadow: 1px 1px 8px black;
+    background-color: whitesmoke;
+}
+
+form input{
+    /* width: 100%; */
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-radius: 0px;
+    padding: 10px;
+    align-items: center;
+    
+
+}
+
+.name{
+    display: flex;
+    /* padding: 5px; */
+}
+
+select{
+    width: 50%;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.create{
+    margin-top: 10px;
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgb(41, 176, 41);
+    color: white;
+    font-size: larger;
+    align-items: center;
+}
+
+.create:hover{
+    background-color: rgb(123, 207, 123);
+}
+
+
+form div{
+    margin-bottom: 8px;
+}
+
+.progressbar {
+    
+    display: block;
+    margin: auto;
+    width: 1000px;
+    height: 8px;
+    /* background-color: #0abcf9;; */
+    border: 2px solid black;
+    border-radius: 10px;
+    /* border-radius: 2.5px; */
+    margin-bottom: 15px;
+  }
+  
+  .progressbar div {
+    width: 25%;
+    height: 100%;
+    background-color: rgb(131, 54, 255);
+  }
+
+  .image-options img{
+    height: 170px;
+    width: 180px;
+    margin: 6px;
+
+  }
+
+  .image-options>.image-option>input{
+    width: 6px;
+    /* height: px; */
+    display: none;
+    border: none;
+    background-color: whitesmoke;
+  }
+  .image-options>.image-option>img:hover{
+    
+    border: 2px solid black;
+  }
+  .selected-image {
+    border: 2px solid black;
+  }
+  
+
+  .addroom h1{
+    margin: 0%;
+  }
+
+ .next-btn{
+    margin-top: 20px;
+    width: 40%;
+    border: 0;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgb(41, 176, 41);
+    color: white;
+    font-size: larger;
+    align-items: center;
+    margin:0px 10px ;
+
+  }
+ .prev-btn{
+    /* margin-top: 20px; */
+    width: 40%;
+    border: 0;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgb(41, 176, 41);
+    color: white;
+    font-size: larger;
+    align-items: center;
+
+  }
+  .addroom .btn:hover{
+    background-color: rgb(123, 207, 123);
+  }
+
+  .image-options{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .tag-img{
+    /* margin-left: 10px; */
+    text-align: center;
+  }
+
+
+.address-inp{
+    height: 50px;
+    width: 100%;
+}
+.city-state{
+    display: flex;
+    /* margin: 0px 20px; */
+    /* justify-content: center; */
+}
+
+.city-state-child{
+    margin: 10px;
+}
+.addroom-foot{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    /* align-items: center; */
+}
+
+.num-inp{
+    /* width: 60%; */
+    padding-right: 25px;
+}
+
+.addroomheader{
+  margin-bottom:16px;
+}
+.desc{
+  font-size: 14px;
+}
+
+.custom-select {
+  position: relative;
+  width: 100%;
+  display: inline-block; 
+}
+
+.custom-select select {
+  
+  appearance: none;
+  background-color: transparent;
+}
+
+.select-arrow {
+  position: absolute;
+  top: 50%;
+  left: 280px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 5px 0;
+  border-color: #333 transparent transparent transparent;
+}
+
+.drag-drop{
+  cursor: pointer;
+  background-color: rgb(182, 217, 248);
+  border-color: #333;
+  border: 2px solid;
+  padding: 2px 4px;
+  width: 50%;
+}
+.image-preview img{
+  width: 100px;
+  height: 75px;
+  margin: 2px 4px;
+  border: 1px solid black;
+}
