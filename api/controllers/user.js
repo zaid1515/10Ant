@@ -45,7 +45,6 @@ const login = async (req, res) => {
           if (!checkPass) {
                return res.status(401).json({ msg: "Invalid Credentials" });
           }
-
           const { password: _, ...userWithoutPassword } = user._doc;
 
           const token = await jwt.sign(userWithoutPassword, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -63,6 +62,30 @@ const login = async (req, res) => {
      }
 };
 
+const googleLogin = async (req, res) => {
+     try {
+          console.log("inside google login")
+          //user gets created and the req.user is updated with the user details through passportJs itself
+          // passport supports sessions directly , but for jwt we need to setup it explicitly
+          const token = await jwt.sign(
+               {
+                    _id: req.user._id,
+                    username: req.user.username,
+                    email: req.user.email
+               }
+               , process.env.JWT_SECRET, { expiresIn: '1h' })
+
+          res.redirect(`http://localhost:3000?token=${token}`)
+
+     } catch (error) {
+          console.log(error.message)
+          res.status(500).json({
+               success: false,
+               error: error.message
+          })
+     }
+
+}
 const getUser = async (req, res) => {
      try {
           const { id } = req.params
@@ -119,4 +142,4 @@ const updateUser = async (req, res) => {
      }
 };
 
-module.exports = { register, login, getUser, getAllUsers, updateUser }
+module.exports = { register, login, getUser, getAllUsers, updateUser, googleLogin }

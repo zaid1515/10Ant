@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Signup.css"
+// import "./Signup.css"
 import { Link } from "react-router-dom"
 import axios from "axios";
 
@@ -62,7 +62,7 @@ export default function Signup() {
             </button>
           </form>
           <p>
-            Dont have an account?<Link to='/login'><span className="signupLink">Login</span></Link>
+            Dont have an account? <Link to='/login'><span className="signupLink">Login</span></Link>
           </p>
         </div>
       </div>

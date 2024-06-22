@@ -1,6 +1,7 @@
 console.log(`Welcome to 10ant`);
 
 const express = require('express');
+const passport = require('passport');
 const connectDB = require('./db/connect');
 const authRouter = require('./routes/auth.');
 const userRouter = require('./routes/user');
@@ -10,11 +11,17 @@ const app= express()
 const path=require('path')
 const dotenv=require('dotenv').config()
 const port=4000
+require('./utils/passport')
 
-app.use(cors())
+app.use(cors({
+     // credentials:true,
+     // origin:"http://localhost:3000/"
+}))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use("/tmp",express.static('tmp'))
+
+app.use(passport.initialize())
 
 app.get('/',(req,res)=>{
      res.send("Welcome to 10Ant")
