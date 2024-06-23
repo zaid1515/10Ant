@@ -1,4 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import { AuthContext } from "../../Context/AuthContext";
 import Homeroom from "../../component/Homeroomcard/Homeroom";
 import Mumbai from "../../component/Images/mumbai.jpg";
 import Banglore from "../../component/Images/banglore.jpg";
@@ -17,11 +20,24 @@ import Aos from "aos";
 import "aos/dist/aos.css"
 
 export default function Home() {
+  const { setUser, setToken } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     Aos.init();
-  }, [])
-  
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    if (token) {
+      const decodedUser = jwt_decode(token);
+      setUser(decodedUser);
+      setToken(token);
+      localStorage.setItem('token', JSON.stringify(token));
+      localStorage.setItem('user', JSON.stringify(decodedUser));
+      navigate('/');
+    }
+  }, [setUser, setToken, navigate]);
 
   return (
     <div className="homeContainer">

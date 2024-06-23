@@ -6,7 +6,7 @@ import Logo from '../../images/logo.png';
 import { FcGoogle } from 'react-icons/fc';
 
 export default function Login() {
-  let { loginUser } = useContext(AuthContext);
+  let { loginUser,googleLogin } = useContext(AuthContext);
 
   return (
     <div className="loginContainer">
@@ -18,7 +18,7 @@ export default function Login() {
             <span className="title">10ANT</span>
           </h2>
           <form className="loginForm" onSubmit={loginUser}>
-            <button className="google-btn" type="button" onClick={loginUser}>
+            <button className="google-btn" type="button" onClick={googleLogin}>
               <FcGoogle className="google-icon" />
               <span className="google-btn-text">Sign in with Google</span>
             </button>

@@ -14,7 +14,7 @@
 }
 
 .loginForm {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
 article {
@@ -24,8 +24,8 @@ article {
 
 .login {
     position: absolute;
-    top: 170px;
-    left: 200px;
+    top: 145px;
+    left: 220px;
     /* margin-top: 200px; */
     /* margin-left: 100px; */
     justify-content: center;
@@ -39,8 +39,8 @@ article {
     border-radius: 8px;
     color: white;
     font-size: larger;
-    width: 100%;
-    margin: 10px 0px 0px 0px;
+    width: 300px;
+    margin: 18px 0px 0px 0px;
 }
 
 .submit-btn:hover {
@@ -66,10 +66,10 @@ input[type="password"],
 input[type="text"] {
     width: 300px;
     padding: 6px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin: 6px 0px;
+    margin: 4px 0px;
     color: rgb(55, 42, 128);
 }
 
@@ -113,7 +113,7 @@ input[type="text"]:focus {
 }
 
 .google-btn {
-    width: 100%;
+    width: 300px;
     padding: 10px;
     background-color: white;
     color: rgb(174, 81, 194);
@@ -146,7 +146,7 @@ input[type="text"]:focus {
 .orWrapper {
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 300px;
     margin: 10px 0;
 }
 
