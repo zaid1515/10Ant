@@ -19,7 +19,7 @@ export default function Conversations() {
         };
 
         const res = await fetch(
-          `http://localhost:9000/conversation/${user.user_id}`,
+          `http://localhost:9000/conversation/${user._id}`,
           requestOptions
         );
 
@@ -38,7 +38,7 @@ export default function Conversations() {
       try {
         const res = await fetch(`http://localhost:4000/api/v1/user`);
         const result = await res.json();
-        setUsers(result.data.users);
+        setUsers(result.users);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -46,14 +46,14 @@ export default function Conversations() {
 
     getConversations();
     getUsers();
-  }, [user.user_id]);
+  }, [user._id]);
 
   return (
     <div className="conversations">
       <div className="conversationsWrapper">
         {friendsWithConversations.map((convo) => {
-          const friendId = convo.members.find((m) => m != user.user_id);
-          const friend = users.find((user) => user.id == friendId);
+          const friendId = convo.members.find((m) => m !== user._id);
+          const friend = users.find((user) => user._id === friendId);
           return (
             <span
               key={convo._id}

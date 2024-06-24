@@ -4,7 +4,7 @@ import Person1 from "../Images/person1.jpg";
 import "./Messages.css";
 
 export default function Messages( {messages,User}) {
-  const { user: { user_id } } = useContext(AuthContext);
+  const { user: { _id } } = useContext(AuthContext);
   const [incomingMessages, setIncomingMessages] = useState([messages]); 
 
   return (
@@ -13,7 +13,7 @@ export default function Messages( {messages,User}) {
         return (
           <div
             className={
-              m.sender == user_id
+              m.sender == _id
                 ? "messages-own"
                 : "messages"
             }
@@ -21,12 +21,12 @@ export default function Messages( {messages,User}) {
           >
             <div className="messageContainer">
               <div className="messagesWrapper">
-                <div className={m.sender == user_id
+                <div className={m.sender == _id
                         ? "chat-own"
                         : "chat"}>
                   <p
                     className={
-                      m.sender == user_id
+                      m.sender == _id
                         ? "message-own"
                         : "message"
                     }
@@ -41,7 +41,7 @@ export default function Messages( {messages,User}) {
               <div className="usernameWrapper">
                 <small
                   className={
-                    m.sender == user_id
+                    m.sender == _id
                       ? "username-own"
                       : "username"
                   }

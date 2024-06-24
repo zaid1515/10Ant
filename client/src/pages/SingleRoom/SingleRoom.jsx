@@ -65,7 +65,7 @@ export default function SingleRoom() {
     }
     try {
       const newConversation = {
-        senderId: user.user_id.toString(),
+        senderId: user._id.toString(),
         receiverId: owner_pkey,
       };
 
@@ -82,7 +82,7 @@ export default function SingleRoom() {
         "http://localhost:9000/conversation/",
         requestOptions
       );
-
+      
       if (res.ok) {
         setcount((prev) => prev + 1);
         navigate({

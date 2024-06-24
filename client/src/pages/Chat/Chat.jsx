@@ -39,8 +39,8 @@ export default function Chat() {
     console.log(receiverId);
     const existingConvo = conversations.find(
       (convo) =>
-        (convo.senderId === user.user_id && convo.receiverId === receiverId) ||
-        (convo.senderId === receiverId && convo.receiverId === user.user_id)
+        (convo.senderId === user._id && convo.receiverId === receiverId) ||
+        (convo.senderId === receiverId && convo.receiverId === user._id)
     );
 
     if (existingConvo) {
@@ -49,7 +49,7 @@ export default function Chat() {
     }
     try {
       const newConversation = {
-        senderId: user.user_id,
+        senderId: user._id,
         receiverId: receiverId,
       };
 
@@ -86,11 +86,11 @@ export default function Chat() {
         redirect: "follow",
       };
 
-      const res = await fetch("http://localhost:9000/users/getusers", requestOptions);
+      const res = await fetch("http://localhost:4000/api/v1/user", requestOptions);
 
       if (res.ok) {
         const result = await res.json();
-        setusers(result);
+        setusers(result.users);
       } else {
         console.error("Error fetching messages:", res.status);
       }
@@ -106,11 +106,12 @@ export default function Chat() {
     setSearchTerm(term);
   };
 
-  const filteredData = users.filter(
-    (item) =>
-      item.owner &&
-      item.owner.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredData = users
+  // .filter(
+    // (item) =>
+      // item.owner &&
+      // item.owner.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   const renderCards = (items) => {
     return filteredData.map((item, index) => (
@@ -175,7 +176,7 @@ export default function Chat() {
         };
 
         const res = await fetch(
-          `http://localhost:9000/conversation/${user.user_id}`,
+          `http://localhost:9000/conversation/${user._id}`,
           requestOptions
         );
 
@@ -198,7 +199,7 @@ export default function Chat() {
 
     const newMessage = {
       conversationId: currentChat._id,
-      sender: user.user_id,
+      sender: user._id,
       text: inputText,
     };
     socket.current.emit("sendMessage", newMessage);

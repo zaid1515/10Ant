@@ -48,8 +48,8 @@ export default function Chat2() {
     console.log(receiverId);
     const existingConvo = conversations.find(
       (convo) =>
-        (convo.senderId === user.user_id && convo.receiverId === receiverId) ||
-        (convo.senderId === receiverId && convo.receiverId === user.user_id)
+        (convo.senderId === user._id && convo.receiverId === receiverId) ||
+        (convo.senderId === receiverId && convo.receiverId === user._id)
     );
 
     if (existingConvo) {
@@ -57,7 +57,7 @@ export default function Chat2() {
     }
     try {
       const newConversation = {
-        senderId: user.user_id,
+        senderId: user._id,
         receiverId: receiverId,
       };
 
@@ -175,7 +175,7 @@ export default function Chat2() {
     const fetchConversationById = async () => {
       try {
         const res = await fetch(
-          `http://localhost:9000/conversation/${user.user_id}/${currentOwnerPkey}`
+          `http://localhost:9000/conversation/${user._id}/${currentOwnerPkey}`
         );
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -187,8 +187,11 @@ export default function Chat2() {
         console.error("Error fetching conversation:", error);
       }
     };
-    fetchConversationById();
+    if (currentOwnerPkey) {
+      fetchConversationById();
+    }
   }, [currentOwnerPkey]);
+  
 
   // get conversations between users
   useEffect(() => {
@@ -200,13 +203,13 @@ export default function Chat2() {
         };
 
         const res = await fetch(
-          `http://localhost:9000/conversation/${user.user_id}`,
+          `http://localhost:9000/conversation/${user._id}`,
           requestOptions
         );
 
         if (res.ok) {
           const result = await res.json();
-          console.log(result.members)
+          console.log(result)
           setConversations(result);
           // setconvo(result.members)
         } else {
@@ -223,17 +226,20 @@ export default function Chat2() {
   const sendMessage = (e) => {
     e.preventDefault();
     let newMessage;
-    if (inputText !== "") {
+  
+    if (inputText !== "" && currentChat && currentChat[0]) {
       newMessage = {
         conversationId: currentChat[0]._id,
-        sender: user.user_id,
+        sender: user._id,
         text: inputText,
       };
+  
+      socket.current.emit("sendMessage", newMessage);
+      
+      setInputText("");
+    } else {
+      console.error("Message or currentChat is not defined correctly.");
     }
-
-    socket.current.emit("sendMessage", newMessage);
-
-    setInputText("");
   };
 
   // const handleSearch = (term) => {
