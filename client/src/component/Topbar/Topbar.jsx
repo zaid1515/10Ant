@@ -15,11 +15,11 @@ export default function Topbar() {
           {user && <span> Hello {user.username}!</span>}
           {/* <h2>10ANT</h2> */}
         </div>
-        <div className="navCenter">
+        {/* <div className="navCenter">
           <div>
             <input placeholder="Search" className="searchInput"></input>
           </div>
-        </div>
+        </div> */}
         <div className="navRight">
           <div className="navLinks">
             <NavLink to='/'><h4>HOME</h4></NavLink>

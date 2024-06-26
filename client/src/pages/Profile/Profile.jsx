@@ -50,7 +50,7 @@ export default function Profile() {
   return (
     <>
       <div className="profile">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div className="profileRight">
           <div className="profileRightTop">
             <img src={coverImg} alt="coverimg" className="profileCoverImg" />

@@ -46,7 +46,7 @@ const login = async (req, res) => {
                return res.status(401).json({ msg: "Invalid Credentials" });
           }
           const { password: _, ...userWithoutPassword } = user._doc;
-
+          console.log(userWithoutPassword)
           const token = await jwt.sign(userWithoutPassword, process.env.JWT_SECRET, { expiresIn: '1h' });
 
           res.status(200).json({
@@ -71,7 +71,8 @@ const googleLogin = async (req, res) => {
                {
                     _id: req.user._id,
                     username: req.user.username,
-                    email: req.user.email
+                    email: req.user.email,
+                    profilePic:req.user.profilePic
                }
                , process.env.JWT_SECRET, { expiresIn: '1h' })
 

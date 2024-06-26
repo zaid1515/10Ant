@@ -31,7 +31,8 @@ export default function Login() {
             <input type="email" name="email" id="lgnemail" />
             <article>Password</article>
             <input type="password" name="password" id="lgnpass" />
-            <br />
+            <div className='forgot-pass'>Forgot Password?</div>
+            {/* <br /> */}
             <button className="submit-btn" type="submit">Login</button>
           </form>
           <p>Don't have an account? <Link to="/signup"><span className="signupLink">Register</span></Link></p>

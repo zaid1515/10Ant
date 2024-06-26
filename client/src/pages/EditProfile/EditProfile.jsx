@@ -12,7 +12,7 @@ export default function EditProfile() {
     const navigate = useNavigate();
 
     const [profileData, setProfileData] = useState({
-        name: user.name || "",
+        username: user.username || "",
         contact: user.contact || "",
         email: user.email || "",
         bio: user.bio || "",
@@ -43,7 +43,7 @@ export default function EditProfile() {
 
 
         const formData = new FormData();
-        formData.append("username", profileData.name);
+        formData.append("username", profileData.username);
         formData.append("phone_no", profileData.contact);
         formData.append("email", profileData.email);
         formData.append("bio", profileData.bio);
@@ -83,8 +83,8 @@ export default function EditProfile() {
                         <label htmlFor="name">Name:</label>
                         <input
                             type="text"
-                            name="name"
-                            value={profileData.name}
+                            name="username"
+                            value={profileData.username}
                             onChange={handleInput}
                             required
                         />

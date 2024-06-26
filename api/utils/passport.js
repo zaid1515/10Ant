@@ -43,7 +43,7 @@ passport.deserializeUser(async function (id, done) {
           if (!user) {
                return done(new Error("User not found"), null);
           }
-          return done(null, {_id: user._id, username: user.username, email: user.email});
+          return done(null, {_id: user._id, username: user.username, email: user.email,profilePic:user.profilePic});
      } catch (error) {
           return done(error, null);
      }

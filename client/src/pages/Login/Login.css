@@ -156,3 +156,14 @@ input[type="text"]:focus {
     background-color: rgb(174, 81, 194);
     margin: 0 10px;
 }
+
+.forgot-pass {
+    display: flex;
+    justify-content: end;
+    color: rgb(159, 4, 194);
+    cursor: pointer;
+}
+
+.forgot-pass:hover {
+    text-decoration: underline;
+}

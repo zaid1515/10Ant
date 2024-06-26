@@ -1,22 +1,23 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./Room.css";
 import Roomcard from "../Roomcard/Roomcard";
 import { AuthContext } from "../../Context/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Room() {
-
-  const { user } = useContext(AuthContext);
-
   const [rooms, setRooms] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [locationOptions, setLocationOptions] = useState([]);
+  const [bhkOptions, setBhkOptions] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
   const [priceRange, setPriceRange] = useState({ min: "0", max: "2000" });
   const [bhkFilter, setBhkFilter] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
-  const [locationOptions, setLocationOptions] = useState([]);
-  const [bhkOptions, setBhkOptions] = useState([]);
+
+  const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -31,11 +32,14 @@ export default function Room() {
     try {
       const response = await axios.get("http://localhost:4000/api/v1/room/");
       if (response && response.data) {
-        setFilteredData(response.data.data.filter((item) => item.owner_pkey !== user._id));
         setRooms(response.data.data);
+        setFilteredData(response.data.data.filter((item) => item.owner_pkey !== user._id));
+
+        toast.success("Fetched Rooms Successfully");
       }
     } catch (error) {
       console.error("Error fetching rooms:", error);
+      toast.error(`Error fetching rooms : ${error}`);
     }
   };
 
@@ -45,23 +49,15 @@ export default function Room() {
 
   const filterData = () => {
     const filtered = rooms.filter((room) => {
-      const titleMatch =
-        room.title &&
-        room.title.toLowerCase().includes(searchQuery.toLowerCase());
+      const titleMatch = room.title && room.title.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const locationMatch =
-        !locationFilter ||
-        (room.address &&
-          room.address.toLowerCase().includes(locationFilter.toLowerCase()));
+      const locationMatch = !locationFilter || (room.address && room.address.toLowerCase().includes(locationFilter.toLowerCase()));
 
       const minPrice = parseFloat(priceRange.min);
       const maxPrice = parseFloat(priceRange.max);
-      const priceMatch =
-        (!priceRange.min || (room.price && room.price >= minPrice)) &&
-        (!priceRange.max || (room.price && room.price <= maxPrice));
+      const priceMatch = (!priceRange.min || (room.price && room.price >= minPrice)) && (!priceRange.max || (room.price && room.price <= maxPrice));
 
-      const bhkMatch =
-        !bhkFilter || (room.bhk && room.bhk.toString() === bhkFilter);
+      const bhkMatch = !bhkFilter || (room.bhk && room.bhk.toString() === bhkFilter);
 
       return titleMatch && locationMatch && priceMatch && bhkMatch;
     });
@@ -70,8 +66,8 @@ export default function Room() {
   };
 
   useEffect(() => {
-    updateStaticData();
     filterData();
+    updateStaticData();
   }, [searchQuery, locationFilter, priceRange, bhkFilter, rooms]);
 
   const clearFilters = () => {
@@ -97,6 +93,7 @@ export default function Room() {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <div>
+          <ToastContainer />
           <select
             className="minimal"
             value={locationFilter}
