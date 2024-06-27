@@ -79,10 +79,9 @@ function PriceImg({ roomData, setroomData, handleInput, handleImage, houseTypeSe
                 </div>
                 <div className="image-preview">
                     {roomData.images.map((image, index) => (
-                        <img key={index} src={image} alt={`Image ${index}`} />
+                        <img key={index} src={URL.createObjectURL(image)} alt={`Image ${index}`} />
                     ))}
                 </div>
-
             </div>
         </div>
     );
