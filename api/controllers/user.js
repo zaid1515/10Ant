@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user")
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
+const sendEmail = require("../utils/sendEmail");
 
 
 const register = async (req, res) => {
@@ -87,6 +88,89 @@ const googleLogin = async (req, res) => {
      }
 
 }
+
+const forgotPassword = async (req, res) => {
+     try {
+          const email = "zaid@gmail.com";
+          const user = await User.findOne({ email: email }).select("password username email");
+          console.log(user)
+          if (!user) {
+               return res.status(401).json({ success: false, msg: "User does not exist" })
+          }
+          const password=require('crypto').randomBytes(8).toString('hex')
+          const content = `<p> Hi ${user.username},<br/>
+         
+          We received a request to reset the password for your account associated with this email address. 
+          </p>
+
+          <p> Your temporary password is <strong>${password}</strong>.
+          <br/>Follow the link below to reset your password : <a href="http://localhost:3000/reset/${user._id}">Reset Password</a></p>
+          <!--<p>For security reasons, this link will expire in <strong>10 mins</strong>.</p>-->
+          `
+
+          await sendEmail('mohdabuzaid15@gmail.com', "10ANT", "zaidrf786@gmail.com", user.username, "Reset Password", content);
+          await user.updateOne({ resetPassword: password })
+          return res.json({ success: true, mg: "User found" })
+     } catch (error) {
+          console.log(error.message)
+          return res.status(500).json({
+               message: error.message,
+               success:false,
+               code:500,
+          })
+     }
+}
+
+const resetPassword=async(req,res)=>{
+     try {
+          const {id,password,newPassword}=req.body;
+          if(!id || !password || !newPassword){
+               res.status(404).json({
+                    success:false,
+                    code:404,
+                    message:"User details not found"
+               })
+          }
+     
+          const user=await User.findById(id).select("username email password");
+          if(!user){
+               return res.status(404).json({
+                    success:false,
+                    message:"User not found",
+                    code:404
+               })
+          }
+          
+          if(user.updatedAt<Date.now()-10*60*1000){
+               return res.status(400).json({
+                    success:false,
+                    code:400,
+                    message:"Reset password session has expired!"
+               })
+          }
+
+          if(user.resetPassword!==password){
+               res.status(400).json({
+                    success:false,
+                    code:400,
+                    message:"Invaild Credentials!"
+               })
+          }
+          const encryptedPassword=await bcrypt.hash(newPassword,10)
+          await user.updateOne({password:encryptedPassword});
+          return res.status(200).json({
+               success:true,
+               code:200,
+               message:"Password updated successfully"
+          })
+     } catch (error) {
+          return res.status(500).json({
+               success:false,
+               code:500,
+               message:error.message
+          })
+     }
+}
 const getUser = async (req, res) => {
      try {
           const { id } = req.params
@@ -143,4 +227,4 @@ const updateUser = async (req, res) => {
      }
 };
 
-module.exports = { register, login, getUser, getAllUsers, updateUser, googleLogin }
+module.exports = { register, login, getUser, getAllUsers, updateUser, googleLogin, forgotPassword ,resetPassword}

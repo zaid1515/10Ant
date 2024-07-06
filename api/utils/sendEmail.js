@@ -35,17 +35,19 @@ async function sendEmail(
 
     return true;
   } catch (error) {
-    console.error('Error sending email:', error.message);
+    console.error('Error sending email:', error.message,error);
     return false;
   }
 }
 
 // Example usage:
-sendEmail(
-  'mohdabuzaid15@gmail.com',
-  'Ansari Mohd Abuzaid',
-  'abuzaid1326@gmail.com',
-  'Recipient Name',
-  'Test Email Subject',
-  'Hello, this is a test 2 email!'
-);
+// sendEmail(
+//   'mohdabuzaid15@gmail.com',
+//   'Ansari Mohd Abuzaid',
+//   'abuzaid1326@gmail.com',
+//   'Recipient Name',
+//   'Test Email Subject',
+//   'Hello, this is a test 2 email!'
+// );
+
+module.exports=sendEmail

@@ -39,7 +39,7 @@ export default function Roomcard(props) {
             </div>
             <hr></hr>
             <span className="roomDescription" >
-              {props.description}
+              {props.description.length>87?props.description.slice(0,87)+"...":props.description}
             </span>
             <button class="custom-btn btn-13">₹ {props.price}</button>
 

@@ -14,6 +14,11 @@ const user=new mongoose.Schema({
           required:[true,`Password is required`],
           select:false
      },
+     resetPassword:{
+          type:String,
+          default:"",
+          select:false,
+     },
      contact:{
           type:Number
      },
@@ -23,6 +28,6 @@ const user=new mongoose.Schema({
      profilePic:{
           type:String
      }
-})
+},{timestamps:true})
 
 module.exports=mongoose.model('User',user)

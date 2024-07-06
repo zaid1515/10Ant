@@ -54,6 +54,6 @@ const room=new mongoose.Schema({
           type:String,
      },
      images:[String]
-})
+},{timestamps:true})
 
 module.exports=mongoose.model('Room',room)
