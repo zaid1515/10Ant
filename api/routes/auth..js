@@ -7,7 +7,7 @@ authRouter.route('/register').post(register)
 authRouter.route('/login').post(login)
 authRouter.get('/google',passport.authenticate('google',{scope:['email','profile']}))
 authRouter.get('/google/callback', passport.authenticate('google',{session:false, failureRedirect:'/login'}),googleLogin)
-authRouter.get('/forgot',forgotPassword)
+authRouter.post('/forgot',forgotPassword)
 authRouter.post('/reset',resetPassword)
 
 module.exports=authRouter

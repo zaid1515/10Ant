@@ -73,7 +73,7 @@ const googleLogin = async (req, res) => {
                     _id: req.user._id,
                     username: req.user.username,
                     email: req.user.email,
-                    profilePic:req.user.profilePic
+                    profilePic: req.user.profilePic
                }
                , process.env.JWT_SECRET, { expiresIn: '1h' })
 
@@ -91,83 +91,90 @@ const googleLogin = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
      try {
-          const email = "zaid@gmail.com";
+          const email = req.body.email;
           const user = await User.findOne({ email: email }).select("password username email");
           console.log(user)
           if (!user) {
-               return res.status(401).json({ success: false, msg: "User does not exist" })
+               res.status(401).json({ success: false, msg: "User does not exist" })
           }
-          const password=require('crypto').randomBytes(8).toString('hex')
-          const content = `<p> Hi ${user.username},<br/>
+          else {
+               const password = require('crypto').randomBytes(8).toString('hex')
+               const content = `<p> Hi ${user.username},<br/>
          
           We received a request to reset the password for your account associated with this email address. 
           </p>
 
           <p> Your temporary password is <strong>${password}</strong>.
-          <br/>Follow the link below to reset your password : <a href="http://localhost:3000/reset/${user._id}">Reset Password</a></p>
+          <br/>Follow the link below to reset your password : <a href="http://localhost:3000/reset?email=${user.email}">Reset Password</a></p>
           <!--<p>For security reasons, this link will expire in <strong>10 mins</strong>.</p>-->
           `
 
-          await sendEmail('mohdabuzaid15@gmail.com', "10ANT", "zaidrf786@gmail.com", user.username, "Reset Password", content);
-          await user.updateOne({ resetPassword: password })
-          return res.json({ success: true, mg: "User found" })
+               await sendEmail('mohdabuzaid15@gmail.com', "10ANT", "zaidrf786@gmail.com", user.username, "Reset Password", content);
+               await user.updateOne({ resetPassword: password })
+               res.status(200).json({ 
+                    success: true, 
+                    message: "User found, Temp password sent through email successfully!", 
+                    code: 200 })
+          }
      } catch (error) {
           console.log(error.message)
           return res.status(500).json({
                message: error.message,
-               success:false,
-               code:500,
+               success: false,
+               code: 500,
           })
      }
 }
 
-const resetPassword=async(req,res)=>{
+const resetPassword = async (req, res) => {
      try {
-          const {id,password,newPassword}=req.body;
-          if(!id || !password || !newPassword){
-               res.status(404).json({
-                    success:false,
-                    code:404,
-                    message:"User details not found"
-               })
-          }
-     
-          const user=await User.findById(id).select("username email password");
-          if(!user){
+          const { email, password, newPassword } = req.body;
+          if (!email || !password || !newPassword) {
                return res.status(404).json({
-                    success:false,
-                    message:"User not found",
-                    code:404
-               })
-          }
-          
-          if(user.updatedAt<Date.now()-10*60*1000){
-               return res.status(400).json({
-                    success:false,
-                    code:400,
-                    message:"Reset password session has expired!"
+                    success: false,
+                    code: 404,
+                    message: "User details not found"
                })
           }
 
-          if(user.resetPassword!==password){
-               res.status(400).json({
-                    success:false,
-                    code:400,
-                    message:"Invaild Credentials!"
+          const user = await User.findOne({ email: email }).select("username email password resetPassword");
+          if (!user) {
+               return res.status(404).json({
+                    success: false,
+                    message: "User not found",
+                    code: 404
                })
           }
-          const encryptedPassword=await bcrypt.hash(newPassword,10)
-          await user.updateOne({password:encryptedPassword});
-          return res.status(200).json({
-               success:true,
-               code:200,
-               message:"Password updated successfully"
+
+          if (user.updatedAt < Date.now() - 10 * 60 * 1000) {
+               return res.status(400).json({
+                    success: false,
+                    code: 400,
+                    message: "Reset password session has expired!"
+               })
+          }
+
+          if (user.resetPassword !== password) {
+               return res.status(400).json({
+                    success: false,
+                    code: 400,
+                    message: "Invaild Credentials!",
+                    data: user
+               })
+          }
+          const encryptedPassword = await bcrypt.hash(newPassword, 10)
+          await user.updateOne({ password: encryptedPassword });
+          res.status(200).json({
+               success: true,
+               code: 200,
+               message: "Password updated successfully"
           })
      } catch (error) {
+          console.log(error.message)
           return res.status(500).json({
-               success:false,
-               code:500,
-               message:error.message
+               success: false,
+               code: 500,
+               message: error.message
           })
      }
 }
@@ -227,4 +234,4 @@ const updateUser = async (req, res) => {
      }
 };
 
-module.exports = { register, login, getUser, getAllUsers, updateUser, googleLogin, forgotPassword ,resetPassword}
+module.exports = { register, login, getUser, getAllUsers, updateUser, googleLogin, forgotPassword, resetPassword }

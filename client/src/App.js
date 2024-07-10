@@ -5,6 +5,7 @@ import Footer from "./component/Footer/Footer";
 import Login from "./pages/Login/Login";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Signup from "./pages/Login/Signup";
+import Reset from "./pages/Login/Reset";
 import Profile from "./pages/Profile/Profile";
 import Addroom from "./pages/Addroom/Addroom";
 import { useState, useEffect } from "react";
@@ -43,6 +44,7 @@ function App() {
             </Route>
             <Route exact path="/login" element={<Login />}></Route>
             <Route exact path="/signup" element={<Signup />}></Route>
+            <Route exact path="/reset" element={<Reset />}></Route>
             <Route exact path="/one" element={<SingleRoom />}></Route>
             <Route exact path='/profile' element={<PrivateRoute />}>
               <Route exact path="/profile" element={<Profile />}></Route>
