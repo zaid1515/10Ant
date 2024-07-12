@@ -53,7 +53,12 @@ const room=new mongoose.Schema({
      room_type:{
           type:String,
      },
-     images:[String]
+     images:[String],
+     isDeleted:{
+          type:Boolean,
+          default:false
+     }
 },{timestamps:true})
 
-module.exports=mongoose.model('Room',room)
+const Room=mongoose.model('Room',room)
+module.exports=Room
