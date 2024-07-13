@@ -3,7 +3,11 @@ const Room=require('../models/room')
 exports.addRoom=async(req,res)=>{
      try {
           const roomData={...req.body};
-          roomData.images=req.files?req.files["roomImages"].map(image=>image.filename):[]
+          console.log(req.files)
+          if(!req.files){
+               console.log("no")
+          }
+          roomData.images=req.files["roomImages"]?req.files["roomImages"].map(image=>image.filename):[]
           console.log(roomData)
           const newRoom=await Room.create({
                owner_pkey: roomData.owner_pkey,
@@ -48,7 +52,7 @@ exports.addRoom=async(req,res)=>{
 exports.getAllRooms=async(req,res)=>{
      try {
           // get all rooms except the rooms of current user, if any (not implemented this yet)
-          const allRooms=await Room.find({})
+          const allRooms=await Room.find({isDeleted:false});
           if(!allRooms){
                return res.status(404).json({
                     status:"fail",
@@ -146,7 +150,8 @@ exports.updateRoom=async(req,res)=>{
           res.status(200).json({
                status:"success",
                code:200,
-               message:"Room Updated Successfully"
+               message:"Room Updated Successfully",
+               data:updatedRoom
           })   
 
      } catch (error) {

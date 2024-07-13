@@ -147,7 +147,7 @@ export default function Room() {
       <div className="roomWrapper">
         <div className="roomCards">
           {filteredData.map((r, index) => (
-            <Roomcard key={index} {...r} onClick={() => handleCardClick(r)} />
+            <Roomcard key={index} {...r} page="room" onClick={() => handleCardClick(r)} />
           ))}
         </div>
       </div>

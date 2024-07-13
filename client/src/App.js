@@ -16,7 +16,7 @@ import SingleRoom from "./pages/SingleRoom/SingleRoom"
 import EditProfile from "./pages/EditProfile/EditProfile"
 import Chat from "./pages/Chat/Chat";
 import Chat2 from "./pages/Chat/Chat2";
-
+import EditRoom from "./pages/EditRoom/EditRoom";
 
 function App() {
 
@@ -60,6 +60,9 @@ function App() {
             </Route>
             <Route exact path='/editprofile' element={<PrivateRoute />}>
               <Route exact path="/editprofile" element={<EditProfile />}></Route>
+            </Route>
+            <Route exact path='/edit-room' element={<PrivateRoute />}>
+              <Route exact path="/edit-room" element={<EditRoom />}></Route>
             </Route>
           </Routes>
         </AuthProvider>

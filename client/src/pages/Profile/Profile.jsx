@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import Sidebar from "../../component/Sidebar/Sidebar";
 import coverImg from "../../component/Images/coverimg.jpg";
-// import profilePic from "../../component/Images/profilepic.jpg";
 import Roomcard from "../../component/Roomcard/Roomcard";
 import { AuthContext } from "../../Context/AuthContext";
 import axios from "axios";
 import "./Profile.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const { user } = useContext(AuthContext);
   const [Rooms, setRooms] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [userDetails, setUserDetails] = useState({});
+  const navigate = useNavigate();
 
   const fetchRooms = async () => {
     try {
@@ -22,7 +22,6 @@ export default function Profile() {
           (item) => item.owner_pkey === user._id
         );
         setFilteredData(filteredRooms);
-        console.log(filteredData)
       }
     } catch (error) {
       console.error("Error fetching rooms:", error);
@@ -47,10 +46,14 @@ export default function Profile() {
     fetchUser();
   }, [user._id]);
 
+  const handleEdit = (room) => {
+    const searchParams = new URLSearchParams(room).toString();
+    navigate(`/editroom?${searchParams}`);
+  };
+
   return (
     <>
       <div className="profile">
-        {/* <Sidebar /> */}
         <div className="profileRight">
           <div className="profileRightTop">
             <img src={coverImg} alt="coverimg" className="profileCoverImg" />
@@ -75,7 +78,7 @@ export default function Profile() {
             <div className="roomCards">
               {filteredData.length > 0 ? (
                 filteredData.map((r) => {
-                  return <Roomcard key={r._id} {...r} />;
+                  return <Roomcard key={r._id} {...r} user="owner" page="profile" handleEdit={handleEdit} />
                 })
               ) : (
                 <div className="noList">

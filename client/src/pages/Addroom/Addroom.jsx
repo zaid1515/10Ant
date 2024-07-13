@@ -8,6 +8,7 @@ import TitBhkOpt from '../../component/Addroom/TitBhkOpt';
 import GendRmsType from '../../component/Addroom/GendRmsType';
 import AddAmen from '../../component/Addroom/AddAmen';
 import PriceImg from '../../component/Addroom/PriceImg';
+import { toast ,ToastContainer } from 'react-toastify';
 
 function Addroom() {
   let { user } = useContext(AuthContext);
@@ -124,11 +125,11 @@ function Addroom() {
         });
         navigate("/profile");
       } else {
-        alert("Something went wrong");
+        toast.error("Something went wrong");
       }
     } catch (error) {
       console.error("Error uploading room data: ", error);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
@@ -137,6 +138,7 @@ function Addroom() {
       <div className="progressbar">
         <div style={{ width: page === 0 ? "25%" : page === 1 ? "50%" : page === 2 ? "75%" : "100%" }}></div>
       </div>
+      <g ToastContainer/>
       <div className="addroomWrapper">
         <div className="addroomheader">
           <h1>{FormTitles[page]}</h1>
