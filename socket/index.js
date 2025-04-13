@@ -3,9 +3,9 @@ const http = require('http');
 const mongoose = require('mongoose');
 const socketIo = require('socket.io');
 const cors = require('cors');
-const router=require('../socket/routes/users');
-const Messages = require('../socket/model/messages'); 
-const Convorouter = require('../socket/routes/conversations');
+const router=require('./routes/users');
+const Messages = require('./model/messages'); 
+const Convorouter = require('./routes/conversations');
 
 const app = express();
 const server = http.createServer(app);
